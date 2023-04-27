@@ -1,5 +1,31 @@
 ## Nombre: Manzambi Antonio Kimbungu Doge
 
+### Conceptos 
+      
+#### Ownclod
+     Owncloud es un servicio de almacenamiento y sincronización de archivos multiplataforma que se puede instalar en nuestro servidor.
+Con él, cualquier usuario con una cuenta puede subir información y se sincronizará con los demás usuarios en cualquiera de sus dispositivos.
+
+   La diferencia principal entre Owncloud y otros servicios de almacenamiento en la nube es que al estar instalado en nuestro propio hosting nos da gran libertad para diseñar nuestro propio sistema de almacenamiento en la nube y nos permite tener el control de muchos otros aspectos relativos a la privacidad.
+
+
+#### Redis
+  Redis es un motor de base de datos en memoria, basado en el almacenamiento en tablas de hashes (clave/valor) pero que opcionalmente puede ser usada como una base de datos durable o persistente. Está escrito en ANSI C por Salvatore Sanfilippo, quien es patrocinado por Redis Labs. Está liberado bajo licencia BSD por lo que es considerado software de código abierto.
+
+#### LDAP
+Lightweight Directory Access Protocol, o LDAP por sus siglas, es uno de los principales protocolos de autenticación que se desarrolló por los servicios de directorio. LDAP históricamente se ha usado como una base de datos de información, principalmente para almacenar información como:
+         
+            Usuarios
+            Atributos acerca de esos usuarios
+            Privilegios de la membresía de grupos 
+            … y más
+            
+            
+ #### Mariadb
+   MariaDB es una base de datos. Es muy similar a MySQL, que es un sistema de gestión de bases de datos, y, de hecho, es un fork (o bifurcación) de MySQL. La base de datos MariaDB se utiliza para diversos fines, como el almacenamiento de datos, el comercio electrónico, funciones a nivel empresarial y las aplicaciones de registro. 
+
+   MariaDB te permite llevar a cabo tus proyectos de manera eficiente. Funciona en cualquier base de datos en la nube y a cualquier escala, grande o pequeña.
+
 
 ## Entornos de desarrollo/produccion utilizadas
    
@@ -200,4 +226,6 @@ https://doc.owncloud.com/server/next/admin_manual/installation/docker/
 https://www.digitalocean.com/community/tutorials/an-introduction-to-haproxy-and-load-balancing-concepts
 https://www.haproxy.com/documentation/hapee/latest/configuration/acls/syntax/
 https://hub.docker.com/
+https://www.webempresa.com/blog/que-es-owncloud-y-para-que-sirve.html
+https://es.wikipedia.org/wiki/Redis
    
