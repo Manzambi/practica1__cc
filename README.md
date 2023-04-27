@@ -1,6 +1,3 @@
-La documentación de la entrega debe contener:
-
-README.md: fichero en formato markdown llamado que contenga la documentación de la práctica que incluya los siguientes apartados:
 
 Nombre: Manzambi Antonio Kimbungu Doge
 
