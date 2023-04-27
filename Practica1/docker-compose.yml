@@ -1,0 +1,174 @@
+version: '3.8'
+
+networks:
+  pratica1:
+    driver: bridge
+   
+volumes:
+  haproxy_conf:
+    driver: local
+  data_mariadb_master:
+    driver: local
+  data_mariadb_slave:
+    driver: local
+  redis_cache:
+    driver: local
+  openldap_data:
+    driver: local
+  files_owncloud:
+    driver: local
+
+services:
+  # haproxy
+  haproxy:
+    image: haproxy:2.7
+    container_name: haproxy
+    restart: always
+    depends_on:
+      - owncloud
+    environment:
+      BALANCE: source
+      OWNCLOUD_PORT: 8080
+    ports:
+      - '80:80'
+    volumes:
+      - haproxy_conf:/usr/local/etc/haproxy
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    networks:
+      pratica1:
+       
+
+  # owncloud/server #######################################3
+  owncloud:
+    image: owncloud/server:10.12.0
+    container_name: owncloud
+    restart: always
+    environment:
+      OWNCLOUD_DOMAIN: localhost 
+      OWNCLOUD_DB_TYPE: mysql
+      OWNCLOUD_DB_NAME: owclouddb   #----------------
+      OWNCLOUD_DB_USERNAME: mydb_user
+      OWNCLOUD_DB_PASSWORD: mydb_pwd
+      OWNCLOUD_DB_HOST: mariadb-master
+      OWNCLOUD_ADMIN_USERNAME: antonio      # Usuario admin Owncloud
+      OWNCLOUD_ADMIN_PASSWORD: antonio  # Contraseña admin Owncloud 
+      OWNCLOUD_MYSQL_UTF8MB4: true
+      OWNCLOUD_REDIS_ENABLED: true
+      OWNCLOUD_REDIS_HOST: redis
+    depends_on:
+      - mariadb-master
+      - redis
+      - openldap
+    volumes:
+      - files_owncloud:/mnt/data
+    networks:
+      pratica1:
+       
+
+
+### owncloud esclavo
+  owncloud2:
+    image: owncloud/server:10.12.0
+    container_name: owncloud2
+    restart: always
+    environment:
+      OWNCLOUD_DOMAIN: localhost 
+      OWNCLOUD_DB_TYPE: mysql
+      OWNCLOUD_DB_NAME: owclouddb  #----------------
+      OWNCLOUD_DB_USERNAME: mydb_user
+      OWNCLOUD_DB_PASSWORD: mydb_pwd
+      OWNCLOUD_DB_HOST: mariadb-master
+      OWNCLOUD_ADMIN_USERNAME: antonio      # Usuario admin Owncloud
+      OWNCLOUD_ADMIN_PASSWORD: antonio  # Contraseña admin Owncloud 
+      OWNCLOUD_MYSQL_UTF8MB4: true
+      OWNCLOUD_REDIS_ENABLED: true
+      OWNCLOUD_REDIS_HOST: redis
+    depends_on:
+      - mariadb-slave
+      - redis
+      - openldap
+    volumes:
+      - files_owncloud:/mnt/data
+    networks:
+      pratica1:
+        
+
+
+  # mysql ###############################################3
+  mariadb-master:
+    image: mysql:8.0
+    container_name: mariadb-master
+    restart: always
+
+    env_file:
+     - ./mariadb/master/mariadb_master.env
+    volumes:
+      - data_mariadb_master:/var/lib/mysql
+      - ./mariadb/master/mariadb.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+    networks:
+      pratica1:
+        
+  mariadb-slave:
+    image: mysql:8.0
+    container_name: mariadb-slave
+    restart: always
+    env_file:
+      - ./mariadb/slave/mariadb_slave.env
+    depends_on:
+      - mariadb-master
+    volumes:
+      - data_mariadb_slave:/var/lib/mysql
+      - ./mariadb/slave/mariadb.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+    networks:
+      pratica1:
+       
+
+
+        
+  # phpmyadmin ################################################
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+      pratica1:
+      
+  # redis
+  redis:
+    image: redis:7
+    container_name: redis
+    restart: always
+    environment:
+      REDIS_DATABASES: 1
+    volumes:
+      - redis_cache:/data
+    networks:
+      pratica1:
+       
+  # openldap ##############################open ldap
+  openldap:
+    image: bitnami/openldap:2.5
+    container_name: openldap
+    restart: always
+    environment:
+      LDAP_ORGANISATION: antoniogomez
+      LDAP_DOMAIN: antoniogomez.org
+      LDAP_ROOT: dc=antoniogomez,dc=org   # 
+      LDAP_ADMIN_USERNAME: antonio     # administrador
+      LDAP_ADMIN_PASSWORD: antonio    #  administrador 
+      LDAP_CONFIG_ADMIN_ENABLED: true
+      LDAP_CONFIG_ADMIN_USERNAME: antonio   
+      LDAP_CONFIG_ADMIN_PASSWORD: antonio
+      LDAP_USERS: usuario1,usuario2
+      LDAP_GROUP: users
+      LDAP_PASSWORDS: 12345,12345
+    volumes:
+      - openldap_data:/bitnami/openldap
+    networks:
+      pratica1:
+        
+
