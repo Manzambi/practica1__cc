@@ -189,4 +189,15 @@ donde una sera maestra y otra esclava.
 Despues de mucha investigacion solo puedo concluir, que usar el balanceo y replicas de los servicios es muy util, para evitar fallos en el sistema o de accidentes
 ocasionales, pues aydan a tener una mejor eficacia y funcionamiento de la aplicacion.
 
-Referencias bibliográficas y recursos utilizados
+para acceder al [docker-compose completo presiona aqui....](https://github.com/Manzambi/practica1__cc/blob/main/Practica1/docker-compose.yml) 
+
+## Referencias bibliográficas y recursos utilizados
+
+https://hub.docker.com/r/bitnami/owncloud
+https://github.com/ccano/cc2223/tree/main/practice1
+https://doc.owncloud.com/server/next/admin_manual/configuration/user/user_auth_ldap.html
+https://doc.owncloud.com/server/next/admin_manual/installation/docker/
+https://www.digitalocean.com/community/tutorials/an-introduction-to-haproxy-and-load-balancing-concepts
+https://www.haproxy.com/documentation/hapee/latest/configuration/acls/syntax/
+https://hub.docker.com/
+   
