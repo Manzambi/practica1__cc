@@ -1,4 +1,3 @@
-
 Nombre: Manzambi Antonio Kimbungu Doge
 
 Entorno de desarrollo y de producción utilizado. Especificar con detalle las versiones de sistema operativo, máquinas virtuales, gestor de contenedores, etc.
